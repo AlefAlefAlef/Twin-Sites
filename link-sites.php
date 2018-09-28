@@ -1,23 +1,23 @@
 <?php
 /**
- * @package Link_Other_Sites
- * @version 1.0
+ * @package twin_sites
+ * @version 0.1
  */
 /*
-Plugin Name: Link to your other site's admins
-Plugin URI: https://wordpress.org/plugins/hello-dolly/
-Description: This plugin adds a drop-down to each of your site's admins with links to the current page in your other sites.
-Author: Avraham Cornfeld
-Version: 1.0
+Plugin Name: Twin Sites
+Plugin URI: https://wordpress.org/plugins/twin-sites/
+Description: This plugin adds a drop-down to site with links to the current page in your other site/s.
+Author: Avraham Cornfeld & Reuven Karasik
+Version: 0.1
 Author URI: https://alefalefalef.co.il
-Text Domain: hello-dolly
+Text Domain: twin-sites
 
-				<select onchange="window.open(this.options[this.selectedIndex].value,'_top')" id="">
-					<option value="">החלפת אתר</option>
-					<?php foreach ($variable as $key => $value) : ?>
-						<option value="<?=url?>"><?=title()?></option>
-					<php endforeach; ?>
-				</select>
+<select onchange="window.open(this.options[this.selectedIndex].value,'_top')" id="">
+	<option value="">החלפת אתר</option>
+	<?php foreach ($variable as $key => $value) : ?>
+		<option value="<?=url?>"><?=title()?></option>
+	<php endforeach; ?>
+</select>
 
 */
 
