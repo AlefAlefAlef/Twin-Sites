@@ -22,16 +22,18 @@ Text Domain: twin-sites
 */
 
 
-//add link to fontimonim admin on top
+//add link to site/s admin on top
 add_action( 'admin_notices', 'link_to_twin_sites' );
 
-//add link to site after <body> tag opening
+//add link to site/s in bottom of page
 add_action('wp_footer', 'link_to_twin_sites');
 
 function link_to_twin_sites() {
-	$url = 'https://fontimonim.co.il' . $_SERVER['REQUEST_URI'];
+	$site_name = 'פונטימונים';
+	$site_url = 'https://fontimonim.co.il';
+	$url = $site_url . $_SERVER['REQUEST_URI'];
 	if (is_admin())
-	echo '<a id="twin_sites" href="' . $url . '" target="_blank"><i class="icon" data-icon="ℶ"></i> אל פונטימונים ⇱</a>';
+	echo '<a id="twin_sites" href="' . $url . '" target="_blank"><i class="icon" data-icon="ℶ"></i> <?php echo $site_name; ?> ⇱</a>';
 } 
 
 
