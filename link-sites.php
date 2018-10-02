@@ -8,7 +8,7 @@ Plugin Name: Twin Sites
 Plugin URI: https://wordpress.org/plugins/twin-sites/
 Description: This plugin adds a drop-down to site with links to the current page in your other site/s.
 Author: Avraham Cornfeld & Reuven Karasik
-Version: 0.1
+Version: 0.11
 Author URI: https://alefalefalef.co.il
 Text Domain: twin-sites
 
