@@ -13,7 +13,7 @@ Author URI: https://alefalefalef.co.il
 Text Domain: twin-sites
 
 <select onchange="window.open(this.options[this.selectedIndex].value,'_top')" id="">
-	<option value="">החלפת אתר</option>
+	<option value=""><?php _e( 'Switch to:', 'twin_sites' ); ?></option>
 	<?php foreach ($variable as $key => $value) : ?>
 		<option value="<?=url?>"><?=title()?></option>
 	<php endforeach; ?>
