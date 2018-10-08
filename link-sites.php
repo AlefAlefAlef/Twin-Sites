@@ -1,14 +1,14 @@
 <?php
 /**
  * @package twin_sites
- * @version 0.1
+ * @version 1.0
  */
 /*
 Plugin Name: Twin Sites
 Plugin URI: https://wordpress.org/plugins/twin-sites/
-Description: This plugin adds a drop-down to site with links to the current page in your other site/s.
+Description: Adds a drop-down to the admin bar with links to the current page in your other site/s.
 Author: Avraham Cornfeld & Reuven Karasik
-Version: 0.11
+Version: 1.0
 Author URI: https://alefalefalef.co.il
 Text Domain: twin-sites
 
@@ -21,47 +21,62 @@ Text Domain: twin-sites
 
 */
 
+class TwinSites {
+	public $current_site;
 
-//add link to site/s admin on top
-add_action( 'admin_notices', 'link_to_twin_sites' );
+	function __construct() {
 
-//add link to site/s in bottom of page
-add_action('wp_footer', 'link_to_twin_sites');
+		//  (can only be one, containing URLS to other WordPress installations)
+		register_nav_menu( 'twin-sites', __( 'TwinSites Menu', 'twin-sites' ) );
 
-function link_to_twin_sites() {
-	$site_name = 'פונטימונים';
-	$site_url = 'https://fontimonim.co.il';
-	$url = $site_url . $_SERVER['REQUEST_URI'];
-	if (is_admin())
-	echo '<a id="twin_sites" href="' . $url . '" target="_blank"><i class="icon" data-icon="ℶ"></i> <?php echo $site_name; ?> ⇱</a>';
-} 
+		$this->current_site = get_bloginfo( 'name' );
 
-
-// We need some CSS to position the paragraph
-function twin_sites_css() {
-	// This makes sure that the positioning is also good for right-to-left languages
-	$x = is_rtl() ? 'left' : 'right';
-
-	echo "
-	<style type='text/css'>
-	#twin_sites {
-		float: $x;
-		text-decoration: none;
-		display: inline-block;
-		background: #fff;
-		border: 1px solid #23e;
-		color: #23e;
-		margin-top: 0.1em;
-		margin-$x: 0.3em;
-		padding: 0 0.4em;
-		border-radius: 0.4em;	
+		add_action( 'admin_bar_menu', array( $this, 'add_toolbar_items' ), 100 );
 	}
-	</style>
-	";
+
+	protected function get_url( $base_url ) {
+		$current_page = $_SERVER['REQUEST_URI'];
+		if ( '/' === substr( $current_page, 0, 1 ) ) {
+			$current_page = substr( $current_page, 1 );
+		}
+		return trailingslashit( $base_url ) . $current_page;
+	}
+
+	public function add_toolbar_items( $admin_bar ) {
+		$admin_bar->add_menu(
+			array(
+				'id'    => 'twin-sites',
+				// TRANSLATORS: %s: the current site's name
+				'title' => sprintf( __( 'On: %s', 'twin-sites' ), $this->current_site ),
+				'href'  => '#',
+			)
+		);
+		if ( ( $locations = get_nav_menu_locations() ) && isset( $locations['twin-sites'] ) ) {
+			$menu = get_term( $locations['twin-sites'], 'nav_menu' );
+			$menu_items = wp_get_nav_menu_items( $menu->term_id );
+			foreach ( $menu_items as $link ) {
+				$admin_bar->add_menu(
+					array(
+						'id'    => 'twin-sites-' . $link->ID,
+						'parent' => 'twin-sites',
+						'title' => $link->post_title . ' ⇱',
+						'href'  => $this->get_url( $link->url ),
+						'meta'  => array(
+							'title' => $link->post_title . " ({$link->url})",
+							'target' => '_blank',
+						),
+					)
+				);
+			}
+		}
+	}
+
 }
 
-add_action( 'admin_head', 'twin_sites_css' );
-
+add_action( 'init', 'run_twin_sites' );
+function run_twin_sites() {
+	new TwinSites();
+}
 
 
 
