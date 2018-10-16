@@ -32,8 +32,6 @@ class TwinSites {
 		$this->current_site = get_bloginfo( 'name' );
 
 		add_action( 'admin_bar_menu', array( $this, 'add_toolbar_items' ), 100 );
-
-		add_action( 'admin_footer', array( $this, 'check_for_updates' ) );
 	}
 
 	protected function get_url( $base_url ) {
@@ -73,18 +71,6 @@ class TwinSites {
 		}
 	}
 
-	public function check_for_updates() {
-		require 'plugin-update-checker/plugin-update-checker.php';
-		$update_checker = Puc_v4_Factory::buildUpdateChecker(
-			'https://github.com/alefalefalef/twin-sites/',
-			__FILE__,
-			'twin-sites'
-		);
-
-		//Optional: Set the branch that contains the stable release.
-		$update_checker->setBranch( 'master' );
-	}
-
 }
 
 add_action( 'init', 'run_twin_sites' );
@@ -92,5 +78,14 @@ function run_twin_sites() {
 	new TwinSites();
 }
 
+require 'plugin-update-checker/plugin-update-checker.php';
+$update_checker = Puc_v4_Factory::buildUpdateChecker(
+	'https://github.com/alefalefalef/twin-sites/',
+	__FILE__,
+	'twin-sites'
+);
+
+//Optional: Set the branch that contains the stable release.
+$update_checker->setBranch( 'master' );
 
 
