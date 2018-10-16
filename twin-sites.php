@@ -1,14 +1,10 @@
 <?php
-/**
- * @package twin_sites
- * @version 1.1
- */
 /*
 Plugin Name: Twin Sites
 Plugin URI: https://wordpress.org/plugins/twin-sites/
 Description: Adds a drop-down to the admin bar with links to the current page in your other site/s.
 Author: Avraham Cornfeld & Reuven Karasik
-Version: 1.0
+Version: 1.1
 Author URI: https://alefalefalef.co.il
 Text Domain: twin-sites
 
