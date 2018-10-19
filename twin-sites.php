@@ -25,7 +25,8 @@ class TwinSites {
 		//  (can only be one, containing URLS to other WordPress installations)
 		register_nav_menu( 'twin-sites', __( 'TwinSites Menu', 'twin-sites' ) );
 
-		$this->current_site = get_bloginfo( 'name' );
+		$site_url = preg_replace( '#^https?\:\/\/([\w*\.]*)#', '', site_url() );
+		$this->current_site = $site_url;
 
 		add_action( 'admin_bar_menu', array( $this, 'add_toolbar_items' ), 100 );
 	}
@@ -43,7 +44,7 @@ class TwinSites {
 			array(
 				'id'    => 'twin-sites',
 				// TRANSLATORS: %s: the current site's name
-				'title' => sprintf( __( 'On: %s', 'twin-sites' ), $this->current_site ),
+				'title' => sprintf( __( 'You are on: %s', 'twin-sites' ), $this->current_site ),
 				'href'  => '#',
 			)
 		);
